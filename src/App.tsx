@@ -1,5 +1,6 @@
 import { Suspense, useEffect, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
+import * as THREE from 'three'
 import { useGame } from './store/useGame'
 import { Scene } from './game/Scene'
 import { HUD } from './ui/HUD'
@@ -24,6 +25,7 @@ export default function App() {
   const panel = useGame((s) => s.panel)
   const tool = useGame((s) => s.tool)
   const claimDailyGift = useGame((s) => s.claimDailyGift)
+  const lowSpec = useGame((s) => s.lowSpec)
   const [toast, setToast] = useState<string | null>(null)
 
   const showToast = (m: string) => {
@@ -56,10 +58,10 @@ export default function App() {
   return (
     <div className="fill">
       <Canvas
-        shadows
-        dpr={[1, 2]}
+        shadows={!lowSpec}
+        dpr={lowSpec ? [1, 1.25] : [1, 2]}
         camera={{ position: [0, 4, 8], fov: 55, near: 0.1, far: 100 }}
-        gl={{ antialias: true, powerPreference: 'high-performance' }}
+        gl={{ antialias: true, powerPreference: 'high-performance', toneMapping: THREE.ACESFilmicToneMapping }}
       >
         <Suspense fallback={null}>
           <Scene />

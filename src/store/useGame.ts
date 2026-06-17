@@ -108,6 +108,10 @@ interface GameState {
   dayPhase: number           // 0..1 (0=자정, 0.5=정오)
   autoTime: boolean
 
+  // 그래픽 스타일 (0=만화 · 1=사실)
+  styleLevel: number         // 0..1 — 머티리얼/조명/후처리 연속 보간
+  lowSpec: boolean           // 저사양폰용 품질 토글 (후처리 끔)
+
   // 배치
   items: PlacedItem[]
   selectedKind: ItemKind
@@ -130,6 +134,8 @@ interface GameState {
   setSelectedKind: (k: ItemKind) => void
   setDayPhase: (p: number) => void
   setAutoTime: (v: boolean) => void
+  setStyleLevel: (v: number) => void
+  setLowSpec: (v: boolean) => void
   addItem: (it: Omit<PlacedItem, 'id' | 'bornAt'>) => void
   removeItem: (id: string) => void
   // 경제 액션
@@ -178,6 +184,8 @@ interface Persisted {
   personality: Personality
   personalitySet: boolean
   removeAds: boolean
+  styleLevel: number
+  lowSpec: boolean
   // 다중 행성
   planets: PlanetData[]
   currentPlanetId: string
@@ -220,6 +228,8 @@ function persist(s: GameState) {
     personality: s.personality,
     personalitySet: s.personalitySet,
     removeAds: s.removeAds,
+    styleLevel: s.styleLevel,
+    lowSpec: s.lowSpec,
     planets: syncPlanets(s),
     currentPlanetId: s.currentPlanetId,
   }
@@ -289,6 +299,9 @@ export const useGame = create<GameState>((set, get) => ({
   dayPhase: 0.32,
   autoTime: true,
 
+  styleLevel: saved.styleLevel ?? 0.35,
+  lowSpec: saved.lowSpec ?? false,
+
   items: initialPlanet.items,
   selectedKind: 'rose',
   tool: 'walk',
@@ -307,6 +320,8 @@ export const useGame = create<GameState>((set, get) => ({
   setSelectedKind: (k) => set({ selectedKind: k, tool: 'place' }),
   setDayPhase: (p) => set({ dayPhase: ((p % 1) + 1) % 1 }),
   setAutoTime: (v) => set({ autoTime: v }),
+  setStyleLevel: (v) => { set({ styleLevel: Math.max(0, Math.min(1, v)) }); persist(get()) },
+  setLowSpec: (v) => { set({ lowSpec: v }); persist(get()) },
 
   addItem: (it) => {
     const items = [...get().items, { ...it, id: uid(), bornAt: Date.now() }]
@@ -461,6 +476,7 @@ export const useGame = create<GameState>((set, get) => ({
       planets: [{ id: 'home', name: 'B-612', theme: 'meadow', items: [], blocks: [] }],
       currentPlanetId: 'home', traveling: false,
       adPlaying: false, removeAds: false,
+      styleLevel: 0.35, lowSpec: false,
     })
   },
 }))

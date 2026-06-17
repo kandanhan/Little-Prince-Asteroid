@@ -1,9 +1,11 @@
-import { useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 import type { PlacedItem } from '../store/useGame'
 import { latLonToDir, surfaceQuaternion, PLANET_RADIUS } from './sphereMath'
 import type { ItemKind } from './items'
+import type { PlanetTheme } from './planets'
+import { StyleMaterial } from './useStyle'
 
 function hueColor(base: string, hue: number) {
   const c = new THREE.Color(base)
@@ -17,22 +19,7 @@ function hueColor(base: string, hue: number) {
 function Model({ kind, hue }: { kind: ItemKind; hue: number }) {
   switch (kind) {
     case 'rose':
-      return (
-        <group>
-          <mesh position={[0, 0.25, 0]}>
-            <cylinderGeometry args={[0.03, 0.04, 0.5, 6]} />
-            <meshStandardMaterial color="#2d6a4f" />
-          </mesh>
-          <mesh position={[0, 0.55, 0]}>
-            <icosahedronGeometry args={[0.16, 0]} />
-            <meshStandardMaterial color={hueColor('#ff4d6d', hue)} roughness={0.5} />
-          </mesh>
-          <mesh position={[0.1, 0.35, 0]} rotation={[0, 0, -0.6]}>
-            <coneGeometry args={[0.06, 0.18, 4]} />
-            <meshStandardMaterial color="#40916c" />
-          </mesh>
-        </group>
-      )
+      return <Rose hue={hue} />
     case 'baobab':
       return (
         <group>
@@ -40,26 +27,26 @@ function Model({ kind, hue }: { kind: ItemKind; hue: number }) {
             <cylinderGeometry args={[0.05, 0.08, 0.36, 6]} />
             <meshStandardMaterial color="#774936" />
           </mesh>
-          <mesh position={[0, 0.42, 0]}>
-            <sphereGeometry args={[0.18, 8, 8]} />
-            <meshStandardMaterial color={hueColor('#52b788', hue)} />
+          <mesh position={[0, 0.42, 0]} castShadow>
+            <sphereGeometry args={[0.18, 12, 12]} />
+            <StyleMaterial color={hueColor('#52b788', hue).getStyle()} />
           </mesh>
         </group>
       )
     case 'tree':
       return (
         <group>
-          <mesh position={[0, 0.3, 0]}>
+          <mesh position={[0, 0.3, 0]} castShadow>
             <cylinderGeometry args={[0.06, 0.1, 0.6, 7]} />
             <meshStandardMaterial color="#6f4518" />
           </mesh>
-          <mesh position={[0, 0.75, 0]}>
+          <mesh position={[0, 0.75, 0]} castShadow>
             <dodecahedronGeometry args={[0.3, 0]} />
-            <meshStandardMaterial color={hueColor('#2d6a4f', hue)} />
+            <StyleMaterial color={hueColor('#2d6a4f', hue).getStyle()} />
           </mesh>
-          <mesh position={[0.15, 0.62, 0.1]}>
+          <mesh position={[0.15, 0.62, 0.1]} castShadow>
             <dodecahedronGeometry args={[0.2, 0]} />
-            <meshStandardMaterial color={hueColor('#40916c', hue)} />
+            <StyleMaterial color={hueColor('#40916c', hue).getStyle()} />
           </mesh>
         </group>
       )
@@ -302,6 +289,146 @@ function Volcano({ hue }: { hue: number }) {
       </mesh>
       <pointLight ref={glow} position={[0, 0.45, 0]} color="#ff6b35" intensity={0.9} distance={1.6} />
     </group>
+  )
+}
+
+// 장미 — 줄기/잎/꽃받침 + 여러 겹의 꽃잎 레이어
+function Rose({ hue }: { hue: number }) {
+  const petal = hueColor('#ff4d6d', hue).getStyle()
+  const layers = [
+    { y: 0.5, r: 0.12, tilt: 0.55, n: 5, s: 0.09 },
+    { y: 0.535, r: 0.075, tilt: 0.95, n: 5, s: 0.075 },
+    { y: 0.565, r: 0.035, tilt: 1.35, n: 4, s: 0.055 },
+  ]
+  return (
+    <group>
+      <mesh position={[0, 0.25, 0]} castShadow>
+        <cylinderGeometry args={[0.025, 0.04, 0.52, 6]} />
+        <meshStandardMaterial color="#2d6a4f" />
+      </mesh>
+      <mesh position={[0.1, 0.34, 0]} rotation={[0, 0, -0.6]}>
+        <coneGeometry args={[0.06, 0.18, 4]} />
+        <meshStandardMaterial color="#40916c" />
+      </mesh>
+      <mesh position={[-0.09, 0.26, 0.03]} rotation={[0, 0.4, 0.7]}>
+        <coneGeometry args={[0.05, 0.15, 4]} />
+        <meshStandardMaterial color="#52b788" />
+      </mesh>
+      <mesh position={[0, 0.47, 0]}>
+        <sphereGeometry args={[0.05, 8, 8]} />
+        <meshStandardMaterial color="#40916c" />
+      </mesh>
+      {layers.map((L, li) => (
+        <group key={li} position={[0, L.y, 0]}>
+          {Array.from({ length: L.n }).map((_, i) => {
+            const a = (i / L.n) * Math.PI * 2 + li * 0.4
+            return (
+              <mesh
+                key={i}
+                position={[Math.cos(a) * L.r, 0, Math.sin(a) * L.r]}
+                rotation={[L.tilt, -a, 0]}
+                scale={[L.s, L.s * 0.45, L.s]}
+                castShadow
+              >
+                <sphereGeometry args={[1, 8, 6, 0, Math.PI * 2, 0, Math.PI * 0.6]} />
+                <StyleMaterial color={petal} />
+              </mesh>
+            )
+          })}
+        </group>
+      ))}
+      <mesh position={[0, 0.565, 0]} castShadow>
+        <icosahedronGeometry args={[0.05, 0]} />
+        <StyleMaterial color={hueColor('#c9184a', hue).getStyle()} />
+      </mesh>
+    </group>
+  )
+}
+
+// 축에 수직인 직교 기저 (꽃잎 공전용)
+function perpBasis(axis: THREE.Vector3) {
+  const a = axis.clone().normalize()
+  let u = Math.abs(a.y) > 0.9 ? new THREE.Vector3(1, 0, 0) : new THREE.Vector3(0, 1, 0)
+  u = u.sub(a.clone().multiplyScalar(u.dot(a))).normalize()
+  const v = new THREE.Vector3().crossVectors(a, u).normalize()
+  return { u, v }
+}
+
+// 인스턴싱 잔디 — 표면에 흩뿌려진 잎새 (테마별 색)
+export function GrassField({ theme, count = 240 }: { theme: PlanetTheme; count?: number }) {
+  const ref = useRef<THREE.InstancedMesh>(null)
+  const dummy = useMemo(() => new THREE.Object3D(), [])
+  const bladeGeo = useMemo(() => {
+    const g = new THREE.ConeGeometry(0.03, 0.24, 4)
+    g.translate(0, 0.12, 0)
+    return g
+  }, [])
+  const blades = useMemo(
+    () =>
+      Array.from({ length: count }, () => ({
+        dir: new THREE.Vector3().randomDirection(),
+        rot: Math.random() * Math.PI * 2,
+        sx: 0.6 + Math.random() * 0.7,
+        sy: 0.7 + Math.random() * 0.9,
+      })),
+    [count],
+  )
+  useEffect(() => {
+    if (!ref.current) return
+    blades.forEach((b, i) => {
+      dummy.position.copy(b.dir.clone().multiplyScalar(PLANET_RADIUS))
+      dummy.quaternion.copy(surfaceQuaternion(b.dir, b.rot))
+      dummy.scale.set(b.sx, b.sy, b.sx)
+      dummy.updateMatrix()
+      ref.current!.setMatrixAt(i, dummy.matrix)
+    })
+    ref.current.instanceMatrix.needsUpdate = true
+  }, [blades, dummy])
+  const color = theme === 'rose' ? '#7bbf8a' : '#5fa86b'
+  return (
+    <instancedMesh ref={ref} args={[bladeGeo, undefined, count]} castShadow receiveShadow>
+      <StyleMaterial color={color} />
+    </instancedMesh>
+  )
+}
+
+// 인스턴싱 꽃잎 — 행성 둘레를 천천히 떠도는 꽃잎
+export function Petals({ theme, count = 40 }: { theme: PlanetTheme; count?: number }) {
+  const ref = useRef<THREE.InstancedMesh>(null)
+  const dummy = useMemo(() => new THREE.Object3D(), [])
+  const geo = useMemo(() => new THREE.PlaneGeometry(0.12, 0.16), [])
+  const seeds = useMemo(
+    () =>
+      Array.from({ length: count }, () => ({
+        basis: perpBasis(new THREE.Vector3().randomDirection()),
+        phase: Math.random() * Math.PI * 2,
+        speed: 0.05 + Math.random() * 0.08,
+        r: PLANET_RADIUS + 0.5 + Math.random() * 1.7,
+        tilt: Math.random() * Math.PI,
+        spin: 0.4 + Math.random(),
+      })),
+    [count],
+  )
+  useFrame((st) => {
+    if (!ref.current) return
+    const t = st.clock.elapsedTime
+    seeds.forEach((s, i) => {
+      const a = s.phase + t * s.speed
+      const p = s.basis.u.clone().multiplyScalar(Math.cos(a)).add(s.basis.v.clone().multiplyScalar(Math.sin(a)))
+      const bob = Math.sin(t * 0.6 + s.phase) * 0.2
+      dummy.position.copy(p.multiplyScalar(s.r + bob))
+      dummy.rotation.set(t * s.spin, t * s.spin * 0.7 + s.tilt, 0)
+      dummy.scale.setScalar(1)
+      dummy.updateMatrix()
+      ref.current!.setMatrixAt(i, dummy.matrix)
+    })
+    ref.current.instanceMatrix.needsUpdate = true
+  })
+  const color = theme === 'rose' ? '#ff9ec4' : theme === 'snow' ? '#eaf4ff' : '#ffd6e8'
+  return (
+    <instancedMesh ref={ref} args={[geo, undefined, count]}>
+      <meshStandardMaterial color={color} side={THREE.DoubleSide} transparent opacity={0.9} flatShading />
+    </instancedMesh>
   )
 }
 

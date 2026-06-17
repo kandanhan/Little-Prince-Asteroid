@@ -3,6 +3,7 @@ import type { ThreeEvent } from '@react-three/fiber'
 import { useGame, type BuildBlock } from '../store/useGame'
 import { latLonToDir, surfaceQuaternion, PLANET_RADIUS } from './sphereMath'
 import { BUILD_UNIT } from './build'
+import { StyleMaterial } from './useStyle'
 
 const U = BUILD_UNIT
 
@@ -10,26 +11,26 @@ const U = BUILD_UNIT
 function ShapeMesh({ shape, color }: { shape: BuildBlock['shape']; color: string }) {
   switch (shape) {
     case 'cube':
-      return <mesh castShadow><boxGeometry args={[U * 0.94, U * 0.94, U * 0.94]} /><meshStandardMaterial color={color} flatShading /></mesh>
+      return <mesh castShadow receiveShadow><boxGeometry args={[U * 0.94, U * 0.94, U * 0.94]} /><StyleMaterial color={color} /></mesh>
     case 'slab':
-      return <mesh position={[0, -U * 0.32, 0]}><boxGeometry args={[U * 0.96, U * 0.3, U * 0.96]} /><meshStandardMaterial color={color} flatShading /></mesh>
+      return <mesh position={[0, -U * 0.32, 0]} castShadow receiveShadow><boxGeometry args={[U * 0.96, U * 0.3, U * 0.96]} /><StyleMaterial color={color} /></mesh>
     case 'pillar':
-      return <mesh><cylinderGeometry args={[U * 0.3, U * 0.34, U * 0.96, 8]} /><meshStandardMaterial color={color} /></mesh>
+      return <mesh castShadow receiveShadow><cylinderGeometry args={[U * 0.3, U * 0.34, U * 0.96, 8]} /><StyleMaterial color={color} flat={false} /></mesh>
     case 'roof':
-      return <mesh position={[0, U * 0.02, 0]} rotation={[0, Math.PI / 4, 0]}><coneGeometry args={[U * 0.72, U * 0.94, 4]} /><meshStandardMaterial color={color} flatShading /></mesh>
+      return <mesh position={[0, U * 0.02, 0]} rotation={[0, Math.PI / 4, 0]} castShadow><coneGeometry args={[U * 0.72, U * 0.94, 4]} /><StyleMaterial color={color} /></mesh>
     case 'fence':
       return (
         <group>
-          <mesh position={[0, -U * 0.1, 0]}><boxGeometry args={[U * 0.94, U * 0.12, U * 0.12]} /><meshStandardMaterial color={color} /></mesh>
+          <mesh position={[0, -U * 0.1, 0]} castShadow><boxGeometry args={[U * 0.94, U * 0.12, U * 0.12]} /><StyleMaterial color={color} /></mesh>
           {[-0.32, 0, 0.32].map((x) => (
-            <mesh key={x} position={[x * U, 0, 0]}><boxGeometry args={[U * 0.1, U * 0.7, U * 0.1]} /><meshStandardMaterial color={color} /></mesh>
+            <mesh key={x} position={[x * U, 0, 0]} castShadow><boxGeometry args={[U * 0.1, U * 0.7, U * 0.1]} /><StyleMaterial color={color} /></mesh>
           ))}
         </group>
       )
     case 'window':
       return (
         <group>
-          <mesh><boxGeometry args={[U * 0.94, U * 0.94, U * 0.3]} /><meshStandardMaterial color={color} flatShading /></mesh>
+          <mesh castShadow><boxGeometry args={[U * 0.94, U * 0.94, U * 0.3]} /><StyleMaterial color={color} /></mesh>
           <mesh position={[0, 0, U * 0.08]}><boxGeometry args={[U * 0.5, U * 0.5, U * 0.32]} /><meshStandardMaterial color="#9bf6ff" transparent opacity={0.7} emissive="#48cae4" emissiveIntensity={0.4} /></mesh>
         </group>
       )
