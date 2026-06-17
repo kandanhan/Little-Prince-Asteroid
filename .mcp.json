@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "supabase-roundearth": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@supabase/mcp-server-supabase@latest",
+        "--project-ref=tokqxnivbwxlpmunzgyg",
+        "--features=database"
+      ],
+      "env": { "SUPABASE_ACCESS_TOKEN": "${SUPABASE_ACCESS_TOKEN}" }
+    }
+  }
+}
