@@ -1,0 +1,145 @@
+import { useMemo, useRef } from 'react'
+import { useFrame, useThree } from '@react-three/fiber'
+import { Stars } from '@react-three/drei'
+import * as THREE from 'three'
+import { Planet } from './Planet'
+import { Prince } from './Prince'
+import { Decoration } from './Decorations'
+import { Structures } from './Structures'
+import { Courier } from './Courier'
+import { AdBlimp } from './AdBlimp'
+import { THEME_BY_KEY } from './planets'
+import { useGame } from '../store/useGame'
+
+// 하루 위상(0..1)에 따른 색 보간
+function skyColor(phase: number): THREE.Color {
+  // 0 자정(짙은 남색) → 0.25 새벽(보라/주황) → 0.5 정오(하늘색) → 0.75 노을(주황) → 1 자정
+  const stops: [number, string][] = [
+    [0.0, '#0d0c24'],
+    [0.22, '#3a2a5a'],
+    [0.3, '#ff9e7d'],
+    [0.5, '#8fd3ff'],
+    [0.7, '#ffb37d'],
+    [0.8, '#7a4a8a'],
+    [1.0, '#0d0c24'],
+  ]
+  let a = stops[0], b = stops[stops.length - 1]
+  for (let i = 0; i < stops.length - 1; i++) {
+    if (phase >= stops[i][0] && phase <= stops[i + 1][0]) { a = stops[i]; b = stops[i + 1]; break }
+  }
+  const t = (phase - a[0]) / Math.max(1e-6, b[0] - a[0])
+  return new THREE.Color(a[1]).lerp(new THREE.Color(b[1]), t)
+}
+
+// 태양 방향과 밝기
+function sunInfo(phase: number) {
+  const ang = (phase - 0.25) * Math.PI * 2 // 0.25에 떠서 0.75에 짐
+  const dir = new THREE.Vector3(Math.cos(ang), Math.sin(ang), 0.3).normalize()
+  const daylight = THREE.MathUtils.clamp(Math.sin(ang) * 1.2 + 0.2, 0, 1)
+  return { dir, daylight }
+}
+
+function DayNight() {
+  const { scene } = useThree()
+  const dirLight = useRef<THREE.DirectionalLight>(null)
+  const ambient = useRef<THREE.AmbientLight>(null)
+  const dayPhase = useGame((s) => s.dayPhase)
+  const autoTime = useGame((s) => s.autoTime)
+  const setDayPhase = useGame((s) => s.setDayPhase)
+  const skyTint = useGame((s) => THEME_BY_KEY[s.planets.find((p) => p.id === s.currentPlanetId)?.theme ?? 'meadow'].skyTint)
+  const phaseRef = useRef(dayPhase)
+
+  useFrame((_, dt) => {
+    if (autoTime) {
+      // 약 4분에 하루
+      phaseRef.current = (phaseRef.current + dt / 240) % 1
+      // 스토어 갱신은 가끔만 (렌더 폭주 방지)
+      if (Math.random() < 0.02) setDayPhase(phaseRef.current)
+    } else {
+      phaseRef.current = dayPhase
+    }
+    const phase = phaseRef.current
+    // 낮일수록 행성 테마 색을 더 섞어 별마다 분위기를 다르게
+    const daySky = skyColor(phase)
+    const { daylight: dl } = sunInfo(phase)
+    const sky = daySky.clone().lerp(new THREE.Color(skyTint), dl * 0.3)
+    scene.background = sky
+    // 행성만 살짝 감싸는 옅은 안개 (먼 별들은 보이도록 far를 크게)
+    if (!scene.fog) scene.fog = new THREE.Fog(sky, 11, 80)
+    else (scene.fog as THREE.Fog).color.copy(sky)
+
+    const { dir, daylight } = sunInfo(phase)
+    if (dirLight.current) {
+      dirLight.current.position.copy(dir.clone().multiplyScalar(10))
+      dirLight.current.intensity = 0.3 + daylight * 1.3
+      dirLight.current.color.setHSL(0.09, 0.4, 0.7 + daylight * 0.2)
+    }
+    if (ambient.current) ambient.current.intensity = 0.35 + daylight * 0.5
+  })
+
+  return (
+    <>
+      <directionalLight ref={dirLight} castShadow />
+      <ambientLight ref={ambient} />
+      <hemisphereLight args={['#bfe3ff', '#4a6b3a', 0.4]} />
+    </>
+  )
+}
+
+// 반딧불이 입자 (밤의 분위기)
+function Fireflies({ count = 40 }: { count?: number }) {
+  const ref = useRef<THREE.Points>(null)
+  const dayPhase = useGame((s) => s.dayPhase)
+  const positions = useMemo(() => {
+    const arr = new Float32Array(count * 3)
+    for (let i = 0; i < count; i++) {
+      const v = new THREE.Vector3().randomDirection().multiplyScalar(3.2 + Math.random() * 1.2)
+      arr.set([v.x, v.y, v.z], i * 3)
+    }
+    return arr
+  }, [count])
+
+  useFrame((st) => {
+    if (!ref.current) return
+    ref.current.rotation.y = st.clock.elapsedTime * 0.04
+    const mat = ref.current.material as THREE.PointsMaterial
+    // 밤(0.8~0.2)에 밝게
+    const night = dayPhase > 0.78 || dayPhase < 0.22 ? 1 : 0
+    mat.opacity = THREE.MathUtils.lerp(mat.opacity, night * 0.9, 0.05)
+  })
+
+  return (
+    <points ref={ref}>
+      <bufferGeometry>
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+      </bufferGeometry>
+      <pointsMaterial color="#fff3b0" size={0.08} transparent opacity={0} sizeAttenuation />
+    </points>
+  )
+}
+
+export function Scene() {
+  const items = useGame((s) => s.items)
+  const tool = useGame((s) => s.tool)
+  const removeItem = useGame((s) => s.removeItem)
+
+  const onItemClick = (id: string) => {
+    if (tool === 'remove') removeItem(id)
+  }
+
+  return (
+    <>
+      <DayNight />
+      <Stars radius={45} depth={30} count={1800} factor={3} saturation={0} fade speed={0.4} />
+      <Fireflies />
+      <Planet />
+      <Prince />
+      <Structures />
+      <Courier />
+      <AdBlimp />
+      {items.map((it) => (
+        <Decoration key={it.id} item={it} onClick={onItemClick} />
+      ))}
+    </>
+  )
+}

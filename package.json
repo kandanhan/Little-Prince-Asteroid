@@ -1,0 +1,42 @@
+{
+  "name": "little-prince-asteroid",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "어린왕자의 작은 소행성 B-612 — 힐링 게임 (Little Prince Healing Game)",
+  "homepage": "https://github.com/kandanhan/Little-Prince-Asteroid",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kandanhan/Little-Prince-Asteroid.git"
+  },
+  "bugs": {
+    "url": "https://github.com/kandanhan/Little-Prince-Asteroid/issues"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --host",
+    "cap:sync": "cap sync android",
+    "cap:open": "cap open android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.2.1",
+    "@capacitor/core": "^6.2.1",
+    "@react-three/drei": "^9.114.0",
+    "@react-three/fiber": "^8.17.10",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "three": "^0.169.0",
+    "zustand": "^4.5.5"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.2.1",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.0",
+    "@types/three": "^0.169.0",
+    "@vitejs/plugin-react": "^4.3.2",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.9",
+    "vite-plugin-pwa": "^0.20.5"
+  }
+}

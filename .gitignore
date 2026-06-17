@@ -1,0 +1,23 @@
+# 의존성 / 빌드 산출물
+node_modules/
+dist/
+dist-ssr/
+*.local
+
+# Capacitor 네이티브 (각자 로컬에서 npx cap add android 로 생성)
+android/
+ios/
+
+# 서명 키 — 절대 커밋 금지
+*.keystore
+*.jks
+key.properties
+
+# 로그 / 캐시
+*.log
+.DS_Store
+*.tsbuildinfo
+
+# tsc -b 산출물
+vite.config.js
+vite.config.d.ts
