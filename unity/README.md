@@ -29,7 +29,7 @@ unity/
 │  ├─ SurfacePlacer.cs         탭→표면 레이캐스트→위경도 배치 (Planet.tsx 이식)
 │  ├─ GameData.cs              데이터 모델 DTO (useGame.ts ↔ Supabase 테이블)
 │  └─ PlanetItemCatalog.cs     장식 13종·테마 6종·블록 6종 카탈로그 (items/planets.ts)
-└─ supabase/schema.sql     7개 테이블 + RLS + 'paintings' 버킷
+└─ supabase/schema.sql     little_prince 스키마(7테이블)+RLS+'lp-paintings' 버킷
 ```
 
 ---
@@ -65,11 +65,15 @@ unity/
    `prefab` 에 장식 프리팹(없으면 Cube), `parent` = 행성. Play 중 표면 클릭 시 그 자리에 생성.
 
 ## Supabase (개인 계정에서)
-1. 개인 Supabase 프로젝트 생성(서울 리전 권장).
-2. Dashboard → **SQL Editor** → `supabase/schema.sql` 붙여넣고 **Run**.
+> 이 프로젝트(`kandanhan_creative`)는 Round Earth 등 다른 앱과 함께 쓰므로,
+> 어린왕자는 **전용 스키마 `little_prince`** 에 격리한다(`public` 미사용 → 충돌 0).
+1. 개인 Supabase 프로젝트(서울 리전 권장). 다른 앱과 공유해도 됨(스키마로 분리).
+2. Dashboard → **SQL Editor** → `supabase/schema.sql` 붙여넣고 **Run**
+   → `little_prince` 스키마에 7테이블 + RLS + `lp-paintings` 버킷 생성.
 3. Dashboard → **Authentication** → Email + Google 공급자 켜기.
-4. Storage 에 `paintings` 버킷이 생성됐는지 확인(스크립트가 만들지만 비공개·RLS 적용됨).
-5. Unity 연동: `supabase-csharp` 또는 REST + anon key. (Project Settings → API 에서 URL/anon key 복사)
+4. **클라이언트 노출**: Settings → API → **Exposed schemas** 에 `little_prince` 추가.
+5. Unity 연동: `supabase-csharp`(또는 REST) + anon key, **schema = `little_prince`** 지정.
+   (Project Settings → API 에서 URL/anon key 복사)
 
 ---
 
