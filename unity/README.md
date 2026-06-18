@@ -28,7 +28,11 @@ unity/
 │  ├─ ThirdPersonPlanetCamera.cs  3인칭 추적 카메라 (Prince.tsx 이식)
 │  ├─ SurfacePlacer.cs         탭→표면 레이캐스트→위경도 배치 (Planet.tsx 이식)
 │  ├─ GameData.cs              데이터 모델 DTO (useGame.ts ↔ Supabase 테이블)
-│  └─ PlanetItemCatalog.cs     장식 13종·테마 6종·블록 6종 카탈로그 (items/planets.ts)
+│  ├─ PlanetItemCatalog.cs     장식 13종·테마 6종·블록 6종 카탈로그 (items/planets.ts)
+│  └─ Cloud/                   클라우드 세이브 (REST, 의존성 0)
+│     ├─ SupabaseConfig.cs        url/anonKey/스키마(ScriptableObject)
+│     ├─ SupabaseClient.cs        Auth(로그인)+REST(little_prince 스키마 헤더)
+│     └─ CloudSave.cs             profile/planets/items/blocks 저장·로드
 └─ supabase/schema.sql     little_prince 스키마(7테이블)+RLS+'lp-paintings' 버킷
 ```
 
@@ -76,6 +80,26 @@ unity/
    (Project Settings → API 에서 URL/anon key 복사)
 
 ---
+
+## 클라우드 세이브 (Cloud/) 사용 — 의존성 0 REST
+1. `Assets/Scripts/Cloud/` 복사 → Project → Create → **Little Prince → Supabase Config**
+   에셋 생성 → Inspector 에 **anonKey** 입력(url 은 기본값). Settings → API → **Exposed schemas** 에 `little_prince` 추가 필수.
+2. 씬에 빈 GameObject `Supabase` → `SupabaseClient` 부착 → `config` 연결. (`CloudSave` 도 같은 곳에 부착)
+3. 예시:
+   ```csharp
+   var db = SupabaseClient.I;
+   db.SignIn("me@example.com", "pw", (ok, uid) => {
+       if (!ok) return;
+       var pid = System.Guid.NewGuid().ToString();
+       cloud.SavePlanet(new PlanetRow { id = pid, name = "B-612", theme = "meadow" }, (s,_) => {
+           cloud.UpsertItem(new PlacedItem { id = System.Guid.NewGuid().ToString(),
+               kind = "rose", lat = 0.1, lon = 0.2, scale = 1f, hue = 0.5f }, pid, (s2,_2) => {});
+       });
+   });
+   ```
+4. 심기/치우기 → `cloud.UpsertItem(...)` / `cloud.DeleteItem(id, cb)`. id 는 `System.Guid.NewGuid().ToString()`.
+> ⚠️ JsonUtility 주의: null/필드생략 미지원이라 `last_daily_gift` 같은 date 는 빈 문자열("")이면 거부됨 →
+> 유효한 'YYYY-MM-DD' 로 채우거나, 안정성 위해 Newtonsoft(`com.unity.nuget.newtonsoft-json`)로 교체 권장.
 
 ## 다음 단계 (요약)
 - **Phase 2**: 배치/조형 → Supabase 클라우드 세이브(로드 시 `SurfacePlacer.PlaceAt` 로 재현).

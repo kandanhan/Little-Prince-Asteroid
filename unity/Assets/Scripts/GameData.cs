@@ -41,9 +41,10 @@ namespace LittlePrince
     }
 
     [Serializable]
-    public class PlacedItem     // public.items
+    public class PlacedItem     // little_prince.items
     {
-        public string id;
+        public string id;         // uuid (신규 생성 시 System.Guid)
+        public string user_id;    // 소유자(RLS) — 저장 시 자동 주입
         public string planet_id;
         public string kind;       // ItemKind 의 문자열
         public double lat, lon;
@@ -52,9 +53,10 @@ namespace LittlePrince
     }
 
     [Serializable]
-    public class BuildBlock     // public.blocks
+    public class BuildBlock     // little_prince.blocks
     {
-        public string id;
+        public string id;         // uuid (신규 생성 시 System.Guid)
+        public string user_id;    // 소유자(RLS) — 저장 시 자동 주입
         public string planet_id;
         public string shape;      // BuildShape 의 문자열
         public double lat, lon;
@@ -64,7 +66,7 @@ namespace LittlePrince
     }
 
     [Serializable]
-    public class PlanetData     // public.planets (+ 자식 items/blocks)
+    public class PlanetData     // little_prince.planets (+ 자식 items/blocks, 클라 메모리용)
     {
         public string id;
         public string name = "이름 없는 별";
@@ -74,7 +76,16 @@ namespace LittlePrince
     }
 
     [Serializable]
-    public class Painting       // public.paintings (이미지는 Storage 'paintings')
+    public class PlanetRow      // little_prince.planets (DB 행 — 자식 제외)
+    {
+        public string id;       // uuid (신규 생성 시 System.Guid)
+        public string user_id;
+        public string name = "이름 없는 별";
+        public string theme = "meadow";
+    }
+
+    [Serializable]
+    public class Painting       // little_prince.paintings (이미지는 Storage 'lp-paintings')
     {
         public string id;
         public string title = "";
@@ -82,7 +93,7 @@ namespace LittlePrince
     }
 
     [Serializable]
-    public class Song           // public.songs
+    public class Song           // little_prince.songs
     {
         public string id;
         public long seed;
@@ -91,7 +102,7 @@ namespace LittlePrince
     }
 
     [Serializable]
-    public class JournalEntry   // public.journal
+    public class JournalEntry   // little_prince.journal
     {
         public string id;
         public string text = "";
