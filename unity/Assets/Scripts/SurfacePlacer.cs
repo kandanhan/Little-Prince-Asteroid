@@ -27,7 +27,15 @@ namespace LittlePrince
 
         void Update()
         {
-            if (!Input.GetMouseButtonDown(0)) return;   // 터치도 마우스로 매핑됨
+            bool clicked;
+            try { clicked = Input.GetMouseButtonDown(0); }   // 터치도 마우스로 매핑됨
+            catch
+            {
+                enabled = false;
+                Debug.LogWarning("[SurfacePlacer] 레거시 Input 비활성 — Player 설정 Active Input Handling=Both 권장.");
+                return;
+            }
+            if (!clicked) return;
             Camera c = cam != null ? cam : Camera.main;
             if (c == null) return;
 

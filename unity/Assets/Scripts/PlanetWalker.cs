@@ -42,8 +42,12 @@ namespace LittlePrince
             float turn = TurnInput;
             if (useLegacyInput)
             {
-                move += Input.GetAxis("Vertical");
-                turn += Input.GetAxis("Horizontal");
+                try { move += Input.GetAxis("Vertical"); turn += Input.GetAxis("Horizontal"); }
+                catch
+                {
+                    useLegacyInput = false;
+                    Debug.LogWarning("[PlanetWalker] 레거시 Input 비활성 — Player 설정 Active Input Handling=Both 로 두거나 MoveInput/TurnInput 으로 구동하세요.");
+                }
             }
             move = Mathf.Clamp(move, -1f, 1f) * (invertWalk ? -1f : 1f);
             turn = Mathf.Clamp(turn, -1f, 1f) * (invertTurn ? -1f : 1f);

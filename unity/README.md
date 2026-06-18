@@ -27,6 +27,7 @@ unity/
 │  ├─ PlanetWalker.cs          중력 정렬 보행 컨트롤러 (Prince.tsx 이식)
 │  ├─ ThirdPersonPlanetCamera.cs  3인칭 추적 카메라 (Prince.tsx 이식)
 │  ├─ SurfacePlacer.cs         탭→표면 레이캐스트→위경도 배치 (Planet.tsx 이식)
+│  ├─ B612Bootstrap.cs         (선택) 빈 씬 자동 구성 — ▶ 즉시 보행/배치 테스트
 │  ├─ GameData.cs              데이터 모델 DTO (useGame.ts ↔ Supabase 테이블)
 │  ├─ PlanetItemCatalog.cs     장식 13종·테마 6종·블록 6종 카탈로그 (items/planets.ts)
 │  └─ Cloud/                   클라우드 세이브 (REST, 의존성 0)
@@ -57,6 +58,8 @@ unity/
 5. `Assets/Scripts/` 의 `.cs` 6개를 Unity 프로젝트 `Assets/Scripts/` 로 복사.
 
 ## Phase 1 — 구형 행성 보행 + 3인칭 카메라 (씬 세팅)
+⚡ **빠른 시작**: 빈 GameObject 에 `B612Bootstrap` 만 부착하고 ▶ → 아래 1~4를 코드가 자동 생성(수동 세팅 생략).
+입력이 안 먹으면 Player 설정 **Active Input Handling = Both** 로. 수동으로 하려면:
 1. **행성**: Hierarchy → 3D Object → **Sphere**. Transform position (0,0,0), **scale (6,6,6)**
    (스크립트의 `PlanetRadius = 3` 과 지름이 맞음). 이미 `SphereCollider` 포함.
    - 새 레이어 `Planet` 만들어 이 구에 지정(배치 레이캐스트용).
