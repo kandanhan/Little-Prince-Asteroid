@@ -31,8 +31,9 @@ unity/
 │  ├─ PlanetItemCatalog.cs     장식 13종·테마 6종·블록 6종 카탈로그 (items/planets.ts)
 │  └─ Cloud/                   클라우드 세이브 (REST, 의존성 0)
 │     ├─ SupabaseConfig.cs        url/anonKey/스키마(ScriptableObject)
-│     ├─ SupabaseClient.cs        Auth(로그인)+REST(little_prince 스키마 헤더)
-│     └─ CloudSave.cs             profile/planets/items/blocks 저장·로드
+│     ├─ SupabaseClient.cs        Auth(로그인)+REST(스키마헤더)+Storage(PNG)
+│     ├─ CloudSave.cs             profile/planets/items/blocks/songs/journal/paintings
+│     └─ CloudSyncManager.cs      로그인→로드→액션마다 저장 예제 글루
 └─ supabase/schema.sql     little_prince 스키마(7테이블)+RLS+'lp-paintings' 버킷
 ```
 
@@ -98,6 +99,9 @@ unity/
    });
    ```
 4. 심기/치우기 → `cloud.UpsertItem(...)` / `cloud.DeleteItem(id, cb)`. id 는 `System.Guid.NewGuid().ToString()`.
+5. **추천 글루**: `CloudSyncManager` 를 같은 GameObject 에 부착 → `LoginAndPull(email, pw)` 한 번이면
+   profile/planets/현재 행성 items·blocks 로드 + `PlaceItem/RemoveItem/PlaceBlock/SwitchPlanet`
+   호출마다 자동 저장(프로필 1.5s 디바운스). 로드 완료 시 `OnLoaded` 에서 씬 재구성.
 > ⚠️ JsonUtility 주의: null/필드생략 미지원이라 `last_daily_gift` 같은 date 는 빈 문자열("")이면 거부됨 →
 > 유효한 'YYYY-MM-DD' 로 채우거나, 안정성 위해 Newtonsoft(`com.unity.nuget.newtonsoft-json`)로 교체 권장.
 
