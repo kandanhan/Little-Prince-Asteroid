@@ -88,6 +88,7 @@ namespace LittlePrince
     public class Painting       // little_prince.paintings (이미지는 Storage 'lp-paintings')
     {
         public string id;
+        public string user_id;
         public string title = "";
         public string image_path;   // <uid>/<id>.png
     }
@@ -96,6 +97,7 @@ namespace LittlePrince
     public class Song           // little_prince.songs
     {
         public string id;
+        public string user_id;
         public long seed;
         public string title = "";
         public string mood = "";
@@ -105,6 +107,7 @@ namespace LittlePrince
     public class JournalEntry   // little_prince.journal
     {
         public string id;
+        public string user_id;
         public string text = "";
     }
 }

@@ -80,7 +80,54 @@ namespace LittlePrince.Cloud
             => Db.Get("blocks", "?planet_id=eq." + planetId + "&select=*", (ok, b) =>
                 done?.Invoke(ok ? ParseArray<BuildBlock>(b) : Array.Empty<BuildBlock>()));
 
-        // songs / journal / paintings 도 같은 패턴(Upsert/Delete/Load)으로 추가하면 됨.
-        // 그림 PNG 는 Storage 'lp-paintings' 버킷에 <uid>/<id>.png 로 올린 뒤 image_path 를 저장.
+        // ───────── Songs ─────────
+        public Coroutine UpsertSong(Song s, Action<bool, string> done)
+        { s.user_id = Db.UserId; return Db.Upsert("songs", "id", One(s), done); }
+
+        public Coroutine DeleteSong(string id, Action<bool, string> done)
+            => Db.Delete("songs", "?id=eq." + id, done);
+
+        public Coroutine LoadSongs(Action<Song[]> done)
+            => Db.Get("songs", "?select=*&order=created_at.desc", (ok, b) =>
+                done?.Invoke(ok ? ParseArray<Song>(b) : Array.Empty<Song>()));
+
+        // ───────── Journal ─────────
+        public Coroutine UpsertJournal(JournalEntry j, Action<bool, string> done)
+        { j.user_id = Db.UserId; return Db.Upsert("journal", "id", One(j), done); }
+
+        public Coroutine DeleteJournal(string id, Action<bool, string> done)
+            => Db.Delete("journal", "?id=eq." + id, done);
+
+        public Coroutine LoadJournal(Action<JournalEntry[]> done)
+            => Db.Get("journal", "?select=*&order=created_at.desc", (ok, b) =>
+                done?.Invoke(ok ? ParseArray<JournalEntry>(b) : Array.Empty<JournalEntry>()));
+
+        // ───────── Paintings (메타 + Storage PNG) ─────────
+        /// 그림 저장: lp-paintings/<uid>/<id>.png 업로드 후 paintings 행 upsert.
+        public Coroutine SavePainting(string id, string title, byte[] png, Action<bool, string> done)
+            => StartCoroutine(SavePaintingFlow(id, title, png, done));
+
+        System.Collections.IEnumerator SavePaintingFlow(string id, string title, byte[] png, Action<bool, string> done)
+        {
+            string path = Db.UserId + "/" + id + ".png";
+            bool upOk = false; string upMsg = null; bool upDone = false;
+            Db.UploadPng(Db.config.paintingsBucket, path, png, (ok, m) => { upOk = ok; upMsg = m; upDone = true; });
+            while (!upDone) yield return null;
+            if (!upOk) { done?.Invoke(false, "upload: " + upMsg); yield break; }
+
+            var row = new Painting { id = id, user_id = Db.UserId, title = title, image_path = path };
+            Db.Upsert("paintings", "id", One(row), done);
+        }
+
+        public Coroutine LoadPaintings(Action<Painting[]> done)
+            => Db.Get("paintings", "?select=*&order=created_at.desc", (ok, b) =>
+                done?.Invoke(ok ? ParseArray<Painting>(b) : Array.Empty<Painting>()));
+
+        public Coroutine DeletePainting(string id, Action<bool, string> done)
+            => Db.Delete("paintings", "?id=eq." + id, done);   // 주의: Storage 파일은 별도 삭제 필요
+
+        /// 그림 이미지 바이트 로드 → new Texture2D(2,2); tex.LoadImage(bytes);
+        public Coroutine LoadPaintingImage(string imagePath, Action<bool, byte[]> done)
+            => Db.Download(Db.config.paintingsBucket, imagePath, done);
     }
 }

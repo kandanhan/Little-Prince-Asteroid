@@ -90,6 +90,39 @@ namespace LittlePrince.Cloud
             done?.Invoke(ok, ok ? req.downloadHandler.text : Err(req));
         }
 
+        // ───────── Storage ─────────
+        /// PNG 업로드 (x-upsert: 덮어쓰기). path 예: "<uid>/<id>.png"
+        public Coroutine UploadPng(string bucket, string path, byte[] png, Action<bool, string> done)
+            => StartCoroutine(StoragePut(bucket, path, png, "image/png", done));
+
+        /// 비공개 버킷 파일 바이트 다운로드 (Texture2D.LoadImage 로 표시)
+        public Coroutine Download(string bucket, string path, Action<bool, byte[]> done)
+            => StartCoroutine(StorageGet(bucket, path, done));
+
+        IEnumerator StoragePut(string bucket, string path, byte[] data, string contentType, Action<bool, string> done)
+        {
+            using var req = new UnityWebRequest($"{config.url}/storage/v1/object/{bucket}/{path}", "POST")
+            { downloadHandler = new DownloadHandlerBuffer(), uploadHandler = new UploadHandlerRaw(data) };
+            req.SetRequestHeader("Content-Type", contentType);
+            req.SetRequestHeader("x-upsert", "true");
+            req.SetRequestHeader("apikey", config.anonKey);
+            req.SetRequestHeader("Authorization", "Bearer " + Bearer);
+            yield return req.SendWebRequest();
+            bool ok = req.result == UnityWebRequest.Result.Success;
+            done?.Invoke(ok, ok ? req.downloadHandler.text : Err(req));
+        }
+
+        IEnumerator StorageGet(string bucket, string path, Action<bool, byte[]> done)
+        {
+            using var req = new UnityWebRequest($"{config.url}/storage/v1/object/{bucket}/{path}", "GET")
+            { downloadHandler = new DownloadHandlerBuffer() };
+            req.SetRequestHeader("apikey", config.anonKey);
+            req.SetRequestHeader("Authorization", "Bearer " + Bearer);
+            yield return req.SendWebRequest();
+            bool ok = req.result == UnityWebRequest.Result.Success;
+            done?.Invoke(ok, ok ? req.downloadHandler.data : null);
+        }
+
         // ───────── low-level ─────────
         UnityWebRequest MakeRequest(string method, string url, string body, bool withProfile)
         {
