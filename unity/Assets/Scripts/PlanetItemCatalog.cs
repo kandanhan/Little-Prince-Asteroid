@@ -22,21 +22,22 @@ namespace LittlePrince
         public const float RewardCoins = 15;
 
         // 기본 13종 장식 (상점 전용 5종은 ItemKind 에만 정의)
+        // 힌트 문구는 Orblet 오리지널 카피(어린왕자 인용 미사용) — BRAND.md §5
         public static readonly List<ItemDef> Items = new List<ItemDef>
         {
-            new ItemDef(ItemKind.rose,     "장미",         "🌹", "세상에 단 하나뿐인 나의 장미.",            1.0f),
-            new ItemDef(ItemKind.baobab,   "바오바브 새싹", "🌱", "작을 때 돌봐주면 친구가 돼요.",            0.9f),
-            new ItemDef(ItemKind.tree,     "나무",         "🌳", "그늘을 만들어 주는 친구.",                1.1f),
-            new ItemDef(ItemKind.lamp,     "가로등",       "🏮", "밤이 오면 스스로 불을 밝혀요.",            1.0f),
-            new ItemDef(ItemKind.bench,    "벤치",         "🪑", "노을을 마흔네 번 바라보던 자리.",          1.0f),
-            new ItemDef(ItemKind.fox,      "여우",         "🦊", "길들인다는 건 관계를 맺는 것.",            0.9f),
-            new ItemDef(ItemKind.sheep,    "양",           "🐑", "상자 속에 잠든 나의 양.",                 0.9f),
-            new ItemDef(ItemKind.star,     "별",           "⭐", "웃을 줄 아는 별 하나.",                   0.8f),
-            new ItemDef(ItemKind.crystal,  "수정",         "💎", "빛을 머금은 작은 결정.",                  0.8f),
-            new ItemDef(ItemKind.mushroom, "버섯",         "🍄", "비 온 뒤 돋아난 작은 우산.",              0.8f),
-            new ItemDef(ItemKind.flower,   "들꽃",         "🌼", "바람에 흔들리는 들꽃 무리.",              0.8f),
-            new ItemDef(ItemKind.well,     "우물",         "⛲", "사막을 아름답게 하는 건 어딘가 숨은 우물.", 1.0f),
-            new ItemDef(ItemKind.volcano,  "화산",         "🌋", "매일 청소하면 따뜻한 아침밥을 지어줘요.",   1.0f),
+            new ItemDef(ItemKind.rose,     "장미",         "🌹", "오늘도 한 송이, 별이 환해졌어요",   1.0f),
+            new ItemDef(ItemKind.baobab,   "새싹",         "🌱", "작은 떡잎, 내일이 기대돼요",        0.9f),
+            new ItemDef(ItemKind.tree,     "나무",         "🌳", "그늘 아래 잠깐 쉬어가요",           1.1f),
+            new ItemDef(ItemKind.lamp,     "가로등",       "🏮", "밤이 오면 깜빡, 스스로 불을 켜요",   1.0f),
+            new ItemDef(ItemKind.bench,    "벤치",         "🪑", "나란히 앉아 노을을 봐요",           1.0f),
+            new ItemDef(ItemKind.fox,      "여우",         "🦊", "천천히 다가가면, 어느새 친구",      0.9f),
+            new ItemDef(ItemKind.sheep,    "양",           "🐑", "포근한 털뭉치가 데구르르",          0.9f),
+            new ItemDef(ItemKind.star,     "별",           "⭐", "콕 놓으면 반짝, 웃는 별",           0.8f),
+            new ItemDef(ItemKind.crystal,  "수정",         "💎", "빛을 머금은 작은 결정",             0.8f),
+            new ItemDef(ItemKind.mushroom, "버섯",         "🍄", "비 온 뒤 쏙 돋은 우산",             0.8f),
+            new ItemDef(ItemKind.flower,   "들꽃",         "🌼", "바람에 살랑이는 들꽃 무리",         0.8f),
+            new ItemDef(ItemKind.well,     "우물",         "⛲", "별 어딘가 숨어 있는 시원한 우물",   1.0f),
+            new ItemDef(ItemKind.volcano,  "화산",         "🌋", "아침마다 보글보글, 따뜻한 김",      1.0f),
         };
 
         public static readonly List<ThemeDef> Themes = new List<ThemeDef>
