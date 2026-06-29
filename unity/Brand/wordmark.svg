@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 360" width="900" height="360" role="img" aria-label="Orblet : 별마실 wordmark">
+  <title>Orblet · 별마실 — wordmark (layout mock)</title>
+  <defs>
+    <linearGradient id="planetO" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#CFEAD9"/>
+      <stop offset="1" stop-color="#8FCBA3"/>
+    </linearGradient>
+    <symbol id="sp" viewBox="-10 -10 20 20">
+      <path d="M0,-10 C1.6,-1.6 1.6,-1.6 10,0 C1.6,1.6 1.6,1.6 0,10 C-1.6,1.6 -1.6,1.6 -10,0 C-1.6,-1.6 -1.6,-1.6 0,-10 Z"/>
+    </symbol>
+  </defs>
+  <rect width="900" height="360" fill="#FBF6EC"/>
+
+  <!-- 'O' as a tiny planet with orbit, with 별솜이 perched -->
+  <g transform="translate(150 170)">
+    <ellipse cx="0" cy="0" rx="92" ry="34" fill="none" stroke="#BFE3D0" stroke-width="8" transform="rotate(-18)"/>
+    <circle cx="0" cy="0" r="58" fill="url(#planetO)"/>
+    <ellipse cx="-16" cy="-14" rx="12" ry="7" fill="#fff" opacity="0.5"/>
+    <!-- mini Som -->
+    <circle cx="-22" cy="-66" r="11" fill="#FBF6EC"/>
+    <circle cx="22" cy="-66" r="11" fill="#FBF6EC"/>
+    <ellipse cx="0" cy="-50" rx="40" ry="34" fill="#FBF6EC" stroke="#EADFCB" stroke-width="3"/>
+    <circle cx="-12" cy="-54" r="4.5" fill="#4A4660"/>
+    <circle cx="12" cy="-54" r="4.5" fill="#4A4660"/>
+    <use href="#sp" x="34" y="-60" width="20" height="20" fill="#FFD66B"/>
+  </g>
+
+  <!-- wordmark text (final: replace with OFL outlined font in design tool) -->
+  <text x="250" y="205" font-family="'Baloo 2','Quicksand','Noto Sans KR',sans-serif" font-size="150" font-weight="800" fill="#4A4660" letter-spacing="2">rblet</text>
+  <text x="256" y="270" font-family="'Gowun Dodum','Noto Sans KR',sans-serif" font-size="40" fill="#8a849c" letter-spacing="10">별마실</text>
+</svg>

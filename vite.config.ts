@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import { VitePWA } from 'vite-plugin-pwa'
 
-// 어린왕자의 작은 소행성 — Vite 설정
+// Orblet : 별마실 — Vite 설정
 // base를 './'로 두어 Capacitor(안드로이드 file://) 및 정적 호스팅 모두에서 동작하게 함
 export default defineConfig({
   base: './',
@@ -14,9 +14,9 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.svg'],
       manifest: {
-        name: '어린왕자의 작은 소행성',
-        short_name: 'B-612',
-        description: '나만의 작은 소행성을 가꾸며 힐링하는 게임',
+        name: 'Orblet : 별마실',
+        short_name: 'Orblet',
+        description: '별에서 별로 마실 다니며 내 작은 별을 가꾸는 힐링 게임',
         lang: 'ko',
         theme_color: '#1a1840',
         background_color: '#0d0c24',

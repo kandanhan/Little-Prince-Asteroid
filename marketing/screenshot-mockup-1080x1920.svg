@@ -36,12 +36,14 @@
       <rect x="-1.5" y="0" width="3" height="180" fill="#3d3d52"/>
       <circle cx="0" cy="-2" r="36" fill="#ffd60a"/>
     </g>
-    <!-- 어린왕자 -->
+    <!-- 별솜이(Som) -->
     <g transform="translate(540,688)">
-      <ellipse cx="0" cy="-6" rx="57.6" ry="79.2" fill="#3a7d44"/>
-      <circle cx="0" cy="-85.2" r="43.199999999999996" fill="#ffe0bd"/>
-      <path d="M -43.199999999999996 -99.60000000000001 a 43.199999999999996 43.199999999999996 0 0 1 86.39999999999999 0 z" fill="#f6c453"/>
-      <rect x="-36" y="-49.199999999999996" width="72" height="3" rx="1.5" fill="#ffd60a"/>
+      <circle cx="-43.199999999999996" cy="-114" r="25.200000000000003" fill="#FBF6EC"/>
+      <circle cx="43.199999999999996" cy="-114" r="25.200000000000003" fill="#FBF6EC"/>
+      <ellipse cx="0" cy="-49.199999999999996" rx="72" ry="61.2" fill="#FBF6EC" stroke="#EADFCB" stroke-width="1.5"/>
+      <circle cx="-25.200000000000003" cy="-52.800000000000004" r="7.92" fill="#4A4660"/>
+      <circle cx="25.200000000000003" cy="-52.800000000000004" r="7.92" fill="#4A4660"/>
+      <path d="M 57.6 -70.8 l 18 -18 l 18 18 l -18 18 z" fill="#FFD66B"/>
     </g>
   <text x="540" y="240" text-anchor="middle" font-family="'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="76" font-weight="800" fill="url(#title)">꽃을 심고</text>
   <text x="540" y="340" text-anchor="middle" font-family="'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="76" font-weight="800" fill="url(#title)">별을 가꿔요</text>

@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img" aria-label="Orblet app icon">
+  <title>Orblet · 별마실 — app icon (별솜이)</title>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FBF6EC"/>
+      <stop offset="1" stop-color="#F6E6DA"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.46" r="0.55">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="planet" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#CFEAD9"/>
+      <stop offset="1" stop-color="#8FCBA3"/>
+    </linearGradient>
+    <symbol id="spark" viewBox="-10 -10 20 20">
+      <path d="M0,-10 C1.6,-1.6 1.6,-1.6 10,0 C1.6,1.6 1.6,1.6 0,10 C-1.6,1.6 -1.6,1.6 -10,0 C-1.6,-1.6 -1.6,-1.6 0,-10 Z"/>
+    </symbol>
+  </defs>
+
+  <!-- background -->
+  <rect x="0" y="0" width="1024" height="1024" rx="224" fill="url(#bg)"/>
+  <circle cx="512" cy="470" r="470" fill="url(#glow)"/>
+
+  <!-- decorative sparkles -->
+  <use href="#spark" x="232" y="232" width="46" height="46" fill="#FFD66B" opacity="0.85"/>
+  <use href="#spark" x="792" y="300" width="30" height="30" fill="#BFE3D0"/>
+  <use href="#spark" x="300" y="700" width="26" height="26" fill="#F6C9B8"/>
+
+  <!-- orbit -->
+  <g transform="rotate(-16 512 690)">
+    <ellipse cx="512" cy="690" rx="300" ry="98" fill="none" stroke="#BFE3D0" stroke-width="10" opacity="0.85"/>
+    <use href="#spark" x="772" y="612" width="40" height="40" fill="#FFD66B"/>
+  </g>
+
+  <!-- planet -->
+  <circle cx="512" cy="690" r="150" fill="url(#planet)"/>
+  <ellipse cx="470" cy="648" rx="30" ry="18" fill="#FFFFFF" opacity="0.45"/>
+  <ellipse cx="566" cy="724" rx="22" ry="13" fill="#6FB58B" opacity="0.5"/>
+
+  <!-- 별솜이 shadow -->
+  <ellipse cx="512" cy="612" rx="112" ry="26" fill="#5AA17C" opacity="0.25"/>
+
+  <!-- 별솜이 (Som) -->
+  <g>
+    <!-- ears -->
+    <circle cx="430" cy="392" r="34" fill="#FBF6EC"/>
+    <circle cx="594" cy="392" r="34" fill="#FBF6EC"/>
+    <!-- body -->
+    <ellipse cx="512" cy="500" rx="138" ry="120" fill="#FBF6EC"/>
+    <ellipse cx="512" cy="500" rx="138" ry="120" fill="none" stroke="#EADFCB" stroke-width="6"/>
+    <!-- star tail -->
+    <use href="#spark" x="636" y="486" width="56" height="56" fill="#FFD66B"/>
+    <!-- blush -->
+    <ellipse cx="452" cy="520" rx="22" ry="13" fill="#F6C9B8"/>
+    <ellipse cx="572" cy="520" rx="22" ry="13" fill="#F6C9B8"/>
+    <!-- eyes -->
+    <circle cx="470" cy="486" r="13" fill="#4A4660"/>
+    <circle cx="554" cy="486" r="13" fill="#4A4660"/>
+    <!-- smile -->
+    <path d="M492 512 Q512 528 532 512" fill="none" stroke="#4A4660" stroke-width="7" stroke-linecap="round"/>
+  </g>
+</svg>

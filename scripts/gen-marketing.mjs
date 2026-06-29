@@ -46,7 +46,7 @@ const defs = `
     </linearGradient>
   </defs>`
 
-// 어린왕자가 선 작은 행성 일러스트 (cx,cy,r)
+// 마스코트(별솜이)가 앉은 작은 별 일러스트 (cx,cy,r)
 function planet(cx, cy, r) {
   return `
     <circle cx="${cx}" cy="${cy}" r="${r * 1.7}" fill="url(#glow)"/>
@@ -62,12 +62,14 @@ function planet(cx, cy, r) {
       <rect x="-1.5" y="0" width="3" height="${r * 0.5}" fill="#3d3d52"/>
       <circle cx="0" cy="-2" r="${r * 0.1}" fill="#ffd60a"/>
     </g>
-    <!-- 어린왕자 -->
+    <!-- 별솜이(Som) -->
     <g transform="translate(${cx},${cy - r - 2})">
-      <ellipse cx="0" cy="-6" rx="${r * 0.16}" ry="${r * 0.22}" fill="#3a7d44"/>
-      <circle cx="0" cy="${-6 - r * 0.22}" r="${r * 0.12}" fill="#ffe0bd"/>
-      <path d="M ${-r * 0.12} ${-6 - r * 0.26} a ${r * 0.12} ${r * 0.12} 0 0 1 ${r * 0.24} 0 z" fill="#f6c453"/>
-      <rect x="${-r * 0.1}" y="${-6 - r * 0.12}" width="${r * 0.2}" height="3" rx="1.5" fill="#ffd60a"/>
+      <circle cx="${-r * 0.12}" cy="${-6 - r * 0.3}" r="${r * 0.07}" fill="#FBF6EC"/>
+      <circle cx="${r * 0.12}" cy="${-6 - r * 0.3}" r="${r * 0.07}" fill="#FBF6EC"/>
+      <ellipse cx="0" cy="${-6 - r * 0.12}" rx="${r * 0.2}" ry="${r * 0.17}" fill="#FBF6EC" stroke="#EADFCB" stroke-width="1.5"/>
+      <circle cx="${-r * 0.07}" cy="${-6 - r * 0.13}" r="${r * 0.022}" fill="#4A4660"/>
+      <circle cx="${r * 0.07}" cy="${-6 - r * 0.13}" r="${r * 0.022}" fill="#4A4660"/>
+      <path d="M ${r * 0.16} ${-6 - r * 0.18} l ${r * 0.05} ${-r * 0.05} l ${r * 0.05} ${r * 0.05} l ${-r * 0.05} ${r * 0.05} z" fill="#FFD66B"/>
     </g>`
 }
 
@@ -77,8 +79,8 @@ const feature = `<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="50
   <rect width="1024" height="500" fill="url(#sky)"/>
   ${stars(1024, 500, 120, 7)}
   ${planet(760, 270, 150)}
-  <text x="70" y="190" font-family="'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="62" font-weight="800" fill="url(#title)">어린왕자의</text>
-  <text x="70" y="262" font-family="'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="62" font-weight="800" fill="url(#title)">작은 소행성</text>
+  <text x="70" y="190" font-family="'Baloo 2','Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="80" font-weight="800" fill="url(#title)">Orblet</text>
+  <text x="72" y="262" font-family="'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="50" font-weight="800" fill="url(#title)">별마실</text>
   <text x="72" y="318" font-family="'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="26" fill="#cfc9ec">거닐고 · 꾸미고 · 그리고 · 작곡하는 힐링 게임</text>
   <text x="72" y="372" font-family="'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="20" fill="#ffcf56">✦ 광고 없음 · 오프라인 · 작지만 완벽한 행복</text>
 </svg>`
@@ -89,8 +91,8 @@ const promo = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"
   <rect width="1200" height="630" fill="url(#sky)"/>
   ${stars(1200, 630, 160, 21)}
   ${planet(600, 400, 175)}
-  <text x="600" y="150" text-anchor="middle" font-family="'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="64" font-weight="800" fill="url(#title)">나만의 작은 소행성</text>
-  <text x="600" y="200" text-anchor="middle" font-family="'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="26" fill="#cfc9ec">B-612 · 어린왕자의 별에서 천천히 쉬어가요</text>
+  <text x="600" y="150" text-anchor="middle" font-family="'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="64" font-weight="800" fill="url(#title)">나만의 작은 별, Orblet</text>
+  <text x="600" y="200" text-anchor="middle" font-family="'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="26" fill="#cfc9ec">별에서 별로 마실 다니며 천천히 쉬어가요</text>
 </svg>`
 
 // 3) 폰 스토어 스크린샷 목업 1080 x 1920 (실기기 스크린샷 보완용 프레임)

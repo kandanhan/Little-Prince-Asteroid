@@ -260,7 +260,7 @@ function initPlanets(s: Partial<Persisted>): { planets: PlanetData[]; currentPla
   // 구버전: 단일 행성으로 모은다
   const home: PlanetData = {
     id: 'home',
-    name: s.princeName ? `${s.princeName}의 별` : 'B-612',
+    name: s.princeName ? `${s.princeName}의 별` : '첫별',
     theme: 'meadow',
     items: s.items ?? [],
     blocks: s.blocks ?? [],
@@ -473,7 +473,7 @@ export const useGame = create<GameState>((set, get) => ({
       coins: 60, lastDailyGift: '', deliveries: [],
       personality: DEFAULT_PERSONALITY, personalitySet: false, dialogue: [],
       blocks: [], buildShape: 'cube', buildColor: '#e9c46a', buildRot: 0,
-      planets: [{ id: 'home', name: 'B-612', theme: 'meadow', items: [], blocks: [] }],
+      planets: [{ id: 'home', name: '첫별', theme: 'meadow', items: [], blocks: [] }],
       currentPlanetId: 'home', traveling: false,
       adPlaying: false, removeAds: false,
       styleLevel: 0.35, lowSpec: false,

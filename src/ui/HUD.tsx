@@ -3,7 +3,7 @@ import { ITEM_BY_KIND } from '../game/items'
 
 export function HUD() {
   const happiness = useGame((s) => s.happiness)
-  const planetName = useGame((s) => s.planets.find((p) => p.id === s.currentPlanetId)?.name ?? 'B-612')
+  const planetName = useGame((s) => s.planets.find((p) => p.id === s.currentPlanetId)?.name ?? '첫별')
   const tool = useGame((s) => s.tool)
   const selectedKind = useGame((s) => s.selectedKind)
   const coins = useGame((s) => s.coins)

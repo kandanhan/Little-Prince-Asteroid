@@ -76,7 +76,7 @@ export function Menu({ onToast }: { onToast: (m: string) => void }) {
         별 처음으로 되돌리기
       </button>
       <p className="sub" style={{ marginTop: 16, textAlign: 'center', opacity: 0.7 }}>
-        어린왕자의 작은 소행성 · B-612<br />작지만 완벽한 행복을 담아.
+        Orblet · 별마실<br />작지만 완벽한 행복을 담아.
       </p>
     </Sheet>
   )

@@ -36,15 +36,17 @@
       <rect x="-1.5" y="0" width="3" height="75" fill="#3d3d52"/>
       <circle cx="0" cy="-2" r="15" fill="#ffd60a"/>
     </g>
-    <!-- 어린왕자 -->
+    <!-- 별솜이(Som) -->
     <g transform="translate(760,118)">
-      <ellipse cx="0" cy="-6" rx="24" ry="33" fill="#3a7d44"/>
-      <circle cx="0" cy="-39" r="18" fill="#ffe0bd"/>
-      <path d="M -18 -45 a 18 18 0 0 1 36 0 z" fill="#f6c453"/>
-      <rect x="-15" y="-24" width="30" height="3" rx="1.5" fill="#ffd60a"/>
+      <circle cx="-18" cy="-51" r="10.500000000000002" fill="#FBF6EC"/>
+      <circle cx="18" cy="-51" r="10.500000000000002" fill="#FBF6EC"/>
+      <ellipse cx="0" cy="-24" rx="30" ry="25.500000000000004" fill="#FBF6EC" stroke="#EADFCB" stroke-width="1.5"/>
+      <circle cx="-10.500000000000002" cy="-25.5" r="3.3" fill="#4A4660"/>
+      <circle cx="10.500000000000002" cy="-25.5" r="3.3" fill="#4A4660"/>
+      <path d="M 24 -33 l 7.5 -7.5 l 7.5 7.5 l -7.5 7.5 z" fill="#FFD66B"/>
     </g>
-  <text x="70" y="190" font-family="'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="62" font-weight="800" fill="url(#title)">어린왕자의</text>
-  <text x="70" y="262" font-family="'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="62" font-weight="800" fill="url(#title)">작은 소행성</text>
+  <text x="70" y="190" font-family="'Baloo 2','Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="80" font-weight="800" fill="url(#title)">Orblet</text>
+  <text x="72" y="262" font-family="'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="50" font-weight="800" fill="url(#title)">별마실</text>
   <text x="72" y="318" font-family="'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="26" fill="#cfc9ec">거닐고 · 꾸미고 · 그리고 · 작곡하는 힐링 게임</text>
   <text x="72" y="372" font-family="'Apple SD Gothic Neo','Noto Sans KR',sans-serif" font-size="20" fill="#ffcf56">✦ 광고 없음 · 오프라인 · 작지만 완벽한 행복</text>
 </svg>

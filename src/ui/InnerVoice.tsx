@@ -13,8 +13,8 @@ export function InnerVoice() {
 
   return (
     <Sheet
-      title="내 안의 어린왕자 🌟"
-      sub={editing ? '먼저 어린왕자를 너와 닮게 빚어볼까요?' : '천천히, 오늘의 너를 들려줘.'}
+      title="내 안의 작은 별 🌟"
+      sub={editing ? '먼저 내 안의 작은 별을 너와 닮게 빚어볼까요?' : '천천히, 오늘의 너를 들려줘.'}
       onClose={() => setPanel(null)}
     >
       {editing
@@ -31,7 +31,7 @@ function Setup({ onDone }: { onDone: () => void }) {
 
   return (
     <div>
-      <p className="sub">슬라이더를 움직여, 내 안의 어린왕자가 나와 얼마나 닮을지 정해요. 언제든 바꿀 수 있어요.</p>
+      <p className="sub">슬라이더를 움직여, 내 안의 작은 별이 나와 얼마나 닮을지 정해요. 언제든 바꿀 수 있어요.</p>
       {PERSONALITY_AXES.map((ax) => (
         <div key={ax.key} style={{ margin: '14px 0' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, fontWeight: 700, color: '#7a7790' }}>
@@ -49,7 +49,7 @@ function Setup({ onDone }: { onDone: () => void }) {
       <div className="badge" style={{ display: 'inline-flex', margin: '8px 0 16px' }}>
         유형: {personalityCode(p)}
       </div>
-      <button className="btn full" onClick={() => { setPersonality(p); onDone() }}>이 어린왕자와 마주 앉기 ✦</button>
+      <button className="btn full" onClick={() => { setPersonality(p); onDone() }}>이 작은 별과 마주 앉기 ✦</button>
     </div>
   )
 }

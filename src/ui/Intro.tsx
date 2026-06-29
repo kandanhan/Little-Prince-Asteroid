@@ -14,9 +14,9 @@ export function Intro() {
   return (
     <div className="intro">
       <div className="planet-emoji">🪐</div>
-      <h1>어린왕자의 작은 소행성</h1>
+      <h1>Orblet · 별마실</h1>
       <p>
-        오직 당신만을 위한 작은 별, B-612.<br />
+        별에서 별로 마실 다니며 가꾸는 나의 작은 별.<br />
         자유롭게 거닐며 꽃을 심고, 그림을 그리고,<br />
         나만의 음악을 지으며 천천히 쉬어가요.
       </p>
@@ -30,7 +30,7 @@ export function Intro() {
       />
       <button className="btn" style={{ minWidth: 200 }} onClick={enter}>나의 별로 떠나기 ✦</button>
       <p style={{ marginTop: 22, fontSize: 12, opacity: 0.6 }}>
-        “가장 중요한 것은 눈에 보이지 않아.”
+        “작은 별들을 마실 다니며, 천천히 가꿔봐요.”
       </p>
     </div>
   )

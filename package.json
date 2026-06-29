@@ -1,9 +1,9 @@
 {
-  "name": "little-prince-asteroid",
+  "name": "orblet",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "어린왕자의 작은 소행성 B-612 — 힐링 게임 (Little Prince Healing Game)",
+  "description": "Orblet : 별마실 — 작은 별을 가꾸는 힐링 게임 (cozy planet-tending game)",
   "homepage": "https://github.com/kandanhan/Little-Prince-Asteroid",
   "repository": {
     "type": "git",
